@@ -20,6 +20,9 @@ else
 hash = Hash.new
 errors = 0
 aantal_posities = 0
+posities = []
+positie_start = []
+positie_end = []
 
 offerte_headers = ["Projectnaam", "Omschrijving", "Ordernummer", "Projectnummer", "Locatienaam", "Plaats", "Status",
   "Invoerdatum", "Datum laatste wijzigingen", "Commercieel verantwoordelijk", "Technisch verantwoordelijk"]
@@ -55,7 +58,14 @@ else
 end
 
 (1..workbook.last_row).each do |row|
-  puts workbook.cell('A',row)
-end
+  cell = workbook.cell('A',row)
 
+  if cell == artikel_headers[0]
+    aantal_posities += 1
+    positie_start << [aantal_posities, row]
+    posities << [workbook.cell('A',row -1).split(',')]
+  end
+end
+puts "Aantal posities: #{aantal_posities}"
+puts "Posities: #{posities}"
 end
