@@ -1,0 +1,18 @@
+<%= simple_form_for @offerte, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :projectnummer %>
+  <%= f.error_span(:projectnummer) %>
+
+  <%= f.input :projectnaam %>
+  <%= f.error_span(:projectnaam) %>
+  <%= f.input :plaats %>
+  <%= f.error_span(:plaats) %>
+
+  <%= f.input :status %>
+  <%= f.error_span(:status) %>
+
+  <%= f.button :submit, 'Maak offerte', :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                offertes_path, :class => 'btn btn-default' %>
+  <%= link_to "Posities", offerte_posities_path(@offerte), :class => 'btn btn-info' %>
+
+<% end %>

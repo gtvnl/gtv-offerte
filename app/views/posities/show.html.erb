@@ -1,0 +1,33 @@
+<%- model_class = Positie -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:regel) %>:</strong></dt>
+  <dd><%= @positie.regel %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:fabrikaat) %>:</strong></dt>
+  <dd><%= @positie.fabrikaat %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:systeem) %>:</strong></dt>
+  <dd><%= @positie.systeem %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:ip) %>:</strong></dt>
+  <dd><%= @positie.ip %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:verdeler) %>:</strong></dt>
+  <dd><%= @positie.verdeler %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:aantal) %>:</strong></dt>
+  <dd><%= @positie.aantal %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:stuksprijs) %>:</strong></dt>
+  <dd><%= @positie.stuksprijs %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:offerte_id) %>:</strong></dt>
+  <dd><%= @positie.offerte_id %></dd>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              offerte_posities_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_offerte_positie_path(@positie), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              offerte_positie_path(@positie),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

@@ -1,0 +1,1 @@
+json.partial! "posities/positie", positie: @positie

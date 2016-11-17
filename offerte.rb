@@ -1,36 +1,8 @@
 require "roo"
 require "pathname"
 require "awesome_print"
+require "./methods.rb"
 
-def berekenUren(array)
-
-  hh = 0
-  mm = 0
-  ss = 0
-  totalSeconds = 0
-
-  array.each do |item|
-    time = item.split(":")
-      if time.size > 3
-        return "Please format HH:MM:SS"
-      end
-
-    hh += time[0].to_i
-    mm += time[1].to_i
-    ss += time[2].to_i
-
-  end
-
-  totalSeconds = ss + (mm * 60) + (hh * (60 * 60))
-
-
-  seconds = totalSeconds % 60
-  minutes = (totalSeconds / 60) % 60
-  hours = totalSeconds / (60 * 60)
-
-  return format("%02d:%02d:%02d", hours, minutes, seconds)
-
-end
 
 calculatieData = Pathname.new("./data/test.xlsx")
 
@@ -154,7 +126,7 @@ if verdelers.size == verdeler_materiaal_end.size
     verdelers[index][:materiaal].merge!(end: verdeler_materiaal_end[index])
   end
 else
-  puts "Fout in het toevoegen van materiaal"
+  puts "Toevoegen Materiaal: ERROR"
 end
 
 if verdelers.size == verdeler_tijd.size
@@ -181,42 +153,62 @@ puts "*"*80
 puts "Aantal verdelers: #{num_pos}/#{verdelers.size}"
 
 puts "*"*80
-ap verdelers
 puts "*"*80
 
-(verdelers[0][:materiaal][:start]..verdelers[0][:materiaal][:end]).each do |row|
-
-  aantal = workbook.cell("A",row)
-  artikel = workbook.cell("B",row)
-  omschrijving = workbook.cell("C",row)
-  bruto = workbook.cell("D",row)
-  korting = workbook.cell("F",row)
-  netto = workbook.cell("G",row)
-
-  total = 0
-  per_stuk = 0
+artikelen = []
 
 
-  if !netto.nil?
-    total = aantal * netto
-    
-    total_formatted = "%.2f" % total
-    netto_formatted = "%.2f" % netto
+verdelers.each do |verdeler|
 
-    puts "%-15s %-80s %-5s %-20s %-20s" % ["#{artikel}","#{omschrijving}","#{aantal}","EUR #{netto_formatted}","EUR #{total_formatted}"]
-  else
-    korting = (korting.to_f / 100)
-    per_stuk =  bruto * korting
-    total = aantal * per_stuk
+ puts verdeler[:positie]
 
-    per_stuk_formatted = "%.2f" % per_stuk
-    total_formatted = "%.2f" % total
+ (verdeler[:materiaal][:start]..verdeler[:materiaal][:end]).each do |row|
+
+   aantal = workbook.cell("A",row)
+   artikel = workbook.cell("B",row)
+   omschrijving = workbook.cell("C",row)
+   bruto = workbook.cell("D",row)
+   korting = workbook.cell("F",row)
+   netto = workbook.cell("G",row)
+
+   total = 0
+   per_stuk = 0
 
 
-    puts "%-15s %-80s %-5s %-20s %-20s" % ["#{artikel}","#{omschrijving}","#{aantal}","EUR #{per_stuk_formatted}","EUR #{total_formatted}"]
-  end
+   if !netto.nil? && korting == 0
+     total = aantal * netto
+
+     bruto_formatted = "%.2f" % bruto
+     total_formatted = "%.2f" % total
+     netto_formatted = "%.2f" % netto
+
+     # puts "%-5s %-15s %-80s %-5s %-20s %-20s" % ["#{row}","#{artikel}","#{omschrijving}","#{aantal}","EUR #{netto_formatted}","EUR #{total_formatted}"]
+
+     artikel = { fabrikant: "Hager", bestelnummer: artikel, omschrijving: omschrijving, brutoprijs: bruto_formatted.to_f, korting: nil, nettoprijs: netto_formatted.to_f }
+
+     artikelen << artikel
+   else
+     bruto_formatted = "%.2f" % bruto
+     korting = (korting.to_f / 100)
+     per_stuk =  bruto * korting
+     total = aantal * per_stuk
+
+     netto_formatted = "%.2f" % per_stuk
+     total_formatted = "%.2f" % total
+
+     artikel = { fabrikant: "Hager", bestelnummer: artikel, omschrijving: omschrijving, brutoprijs: bruto_formatted.to_f, korting: korting, nettoprijs: netto_formatted.to_f }
+
+     artikelen << artikel
+
+
+     # puts artikel
+     # puts "%-5s %-15s %-80s %-5s %-20s %-20s" % ["#{row}","#{artikel}","#{omschrijving}","#{aantal}","EUR #{netto_formatted}","EUR #{total_formatted}"]
+   end
+
+ end
+ verdeler[:materiaal][:artikelen] = artikelen
 
 end
-
+ap verdelers
 # end
 end

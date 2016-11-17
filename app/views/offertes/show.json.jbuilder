@@ -1,0 +1,1 @@
+json.partial! "offertes/offerte", offerte: @offerte

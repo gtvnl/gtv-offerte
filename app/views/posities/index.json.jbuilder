@@ -1,0 +1,1 @@
+json.array! @posities, partial: 'posities/positie', as: :positie

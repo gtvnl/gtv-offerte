@@ -1,0 +1,25 @@
+<%- model_class = Offerte -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:projectnaam) %>:</strong></dt>
+  <dd><%= @offerte.projectnaam %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:projectnummer) %>:</strong></dt>
+  <dd><%= @offerte.projectnummer %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:plaats) %>:</strong></dt>
+  <dd><%= @offerte.plaats %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
+  <dd><%= @offerte.status %></dd>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              offertes_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_offerte_path(@offerte), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              offerte_path(@offerte),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

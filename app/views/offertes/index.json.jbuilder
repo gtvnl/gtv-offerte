@@ -1,0 +1,1 @@
+json.array! @offertes, partial: 'offertes/offerte', as: :offerte
