@@ -18,9 +18,11 @@
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
+
   <tbody>
     <% @posities.each do |positie| %>
       <tr>
+        <td><%= positie.id %></td>
         <td><%= positie.regel %></td>
         <td><%= positie.fabrikaat %></td>
         <td><%= positie.systeem %></td>

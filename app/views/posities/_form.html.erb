@@ -13,7 +13,7 @@
   <%= f.error_span(:aantal) %>
   <%= f.input :stuksprijs %>
   <%= f.error_span(:stuksprijs) %>
-  <%= f.association :offerte %>
+  <%= f.association :offerte, label_method: :projectnaam, value_method: :id, include_blank: false %>
   <%= f.error_span(:offerte) %>
 
   <%= f.button :submit, :class => 'btn-primary' %>
